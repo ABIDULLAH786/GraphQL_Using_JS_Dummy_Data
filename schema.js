@@ -5,7 +5,7 @@ export const typeDefs = `#graphql
     type Game{
         id: ID!
         title: String! 
-        platform: [String!]! # this means that neither the platform list it self nor the items of the platfom cna be null.
+        platforms: [String!]! # this means that neither the platforms list it self nor the items of the platforms cna be null.
         reviews: [Review!] # this means the reviews as whole can be null but it it contains the list of reviews then it must not be null
     },
     type Review {
@@ -29,6 +29,20 @@ export const typeDefs = `#graphql
         reviews: [Review]
         review(id: ID!): Review
         hello: String!
-        
+    }
+    type Mutation{
+        addGame(game: AddGameInput!): Game
+        deleteGame(id: ID!): [Game]
+        updateGame(id: ID!, edits: UpdateGameInput!): Game
+    }
+
+    input AddGameInput{
+        title: String!
+        platforms: [String!]!
+    }
+
+    input UpdateGameInput{
+        title: String,
+        platforms: [String!]
     }
 `

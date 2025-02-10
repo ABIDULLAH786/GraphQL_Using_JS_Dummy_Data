@@ -29,5 +29,30 @@ export const resolvers = {
         reviews(parent) {
             return db.reviews.filter(r => r.author_id === parent.id)
         }
+    },
+    // mutation to create/update/remove data
+    Mutation: {
+        addGame(_, args) {
+            const game = {
+                ...args.game,
+                id: Math.floor(Math.random() * 1000).toString(),
+                created_at: Date.now().toString(),
+            }
+            db.games.push(game)
+            return game
+        },
+        deleteGame(_, args) {
+            db.games = db.games?.filter(g => g.id !== args.id)
+            return db?.games
+        },
+        updateGame(_, args) {
+            db.games = db.games?.map(g => {
+                if (g?.id === args.id) {
+                    return { ...g, ...args?.edits }
+                }
+                return g
+            })
+            return db.games?.find(g => g?.id === args?.id)
+        },
     }
 }
